@@ -439,20 +439,16 @@ footer{background:var(--text-dark);padding:40px 5vw 24px;}
 
     fetch(scriptUrl, {
         method: 'POST',
+        mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(dataObj)
     })
-    .then(res => res.json())
-    .then(result => {
-        if (result.status === 'success') {
+    .then(() => {
         document.getElementById('booking-flow').style.display = 'none';
         document.getElementById('conf-mentor').innerText = dataObj.mentor_name || "Your Mentor";
         document.getElementById('conf-slot').innerText = dataObj.selected_slot || "To be arranged";
         document.getElementById('confirm-section').classList.add('visible');
         window.scrollTo(0, 0);
-        } else {
-        throw new Error(result.message || "Submission failed");
-        }
     })
     .catch(error => {
         console.error('Submission failed:', error);
