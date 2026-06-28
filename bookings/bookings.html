@@ -220,35 +220,11 @@ footer{background:var(--text-dark);padding:40px 5vw 24px;}
 
     <form id="booking-form" novalidate>
 
-      <!-- ════════════════════════════════════════════════════════
-        WEB3FORMS HIDDEN CONFIG
-        Web3Forms uses these standard field names:
-        - access_key: your account key (where email is sent: info@gomentored.com)
-        - email: USER'S email (used as "from" + autoresponse target)
-        - subject, from_name: customize the email
-        - autoresponse + autoresponse_subject: auto-reply to user
-        Mentor notification is sent via JS with separate Web3Forms call
-      ════════════════════════════════════════════════════════ -->
-      <input type="hidden" name="access_key" value="552d2d19-9f7f-4dc6-9281-3cddb9dc901e" />
-      <input type="hidden" name="from_name" value="GoMentored Bookings" />
-      <input type="hidden" name="subject" id="hidden-subject" value="[GoMentored] New Session Booking" />
-      <input type="hidden" name="redirect" value="false" />
-      <input type="checkbox" name="botcheck" class="hidden" style="display:none" />
-
-      <!-- Auto-reply to mentee (Web3Forms sends autoresponse to the form's "email" field) -->
-      <input type="hidden" name="autoresponse_subject" value="Your GoMentored session is requested ✓" />
-      <input type="hidden" name="autoresponse" id="hidden-autoresponse" value="" />
-
       <!-- Booking detail fields -->
-      <input type="hidden" name="mentor_name" id="hidden-mentor-name" />
-      <input type="hidden" name="mentor_email" id="hidden-mentor-email" />
-      <input type="hidden" name="mentor_field" id="hidden-mentor-field" />
+      <input type="hidden" name="mentor_name" id="hidden-mentor-name" value="Sanan Akbar" />
       <input type="hidden" name="selected_slot" id="hidden-slot" />
       <input type="hidden" name="session_length" value="30 minutes" />
       <input type="hidden" name="session_price" value="PKR 5,000" />
-      <input type="hidden" name="payment_method" value="Bank transfer (to be arranged by team)" />
-      <input type="hidden" name="submitted_at" id="hidden-timestamp" value="" />
-      <input type="hidden" name="page_url" id="hidden-page-url" value="" />
 
       <!-- STEP 1: PICK A SLOT -->
       <div class="step-block">
@@ -436,38 +412,25 @@ footer{background:var(--text-dark);padding:40px 5vw 24px;}
     submitBtn.innerText = "Requesting...";
     submitBtn.disabled = true;
 
-    // Convert formData to a clean JSON object for Google Sheets
     const dataObj = Object.fromEntries(formData.entries());
 
-    // --- 1. SEND TO GOOGLE SHEETS ---
-    const googleWebAppUrl = "https://script.google.com/macros/s/AKfycbx4Rsewol72aNwv0iN62frrD_1nvY5BBPYFs1xCDW_yOJrbOn8_rs5Yj9y0GlehnEm6pg/exec"; // <-- PASTE YOUR URL HERE
-    
-    fetch(googleWebAppUrl, {
+    const scriptUrl = "https://script.google.com/macros/s/AKfycbzbzgBanR9aeL7c2i6MVrYMYU8n24lHltaq_t3dWL_QEdynD8jm_3gSmwuyyBLlJJJ0/exec";
+
+    fetch(scriptUrl, {
         method: 'POST',
-        mode: 'no-cors', // Bypasses browser security blocks for background requests
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(dataObj)
-    });
-
-    // --- 2. SEND TO WEB3FORMS ---
-    fetch('https://api.web3forms.com/submit', {
-        method: 'POST',
-        body: formData
     })
-    .then(async (response) => {
-        if(response.status === 200) {
-        // Hide the form UI
+    .then(res => res.json())
+    .then(result => {
+        if (result.status === 'success') {
         document.getElementById('booking-flow').style.display = 'none';
-        
-        // Populate the success screen with submitted data
         document.getElementById('conf-mentor').innerText = dataObj.mentor_name || "Your Mentor";
         document.getElementById('conf-slot').innerText = dataObj.selected_slot || "To be arranged";
-        
-        // Show the success screen
         document.getElementById('confirm-section').classList.add('visible');
         window.scrollTo(0, 0);
         } else {
-        throw new Error("Web3Forms returned an error");
+        throw new Error(result.message || "Submission failed");
         }
     })
     .catch(error => {
