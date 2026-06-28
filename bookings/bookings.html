@@ -354,6 +354,27 @@ footer{background:var(--text-dark);padding:40px 5vw 24px;}
 </footer>
 
 <script>
+    // ── MENTOR LOOKUP ──
+    const mentors = {
+      yahya:    { name: 'Yahya Humayoun',           initials: 'YH', role: 'Co-Founder & CEO · Pattern Technologies',                         tag: 'Entrepreneurship · SaaS · AI' },
+      sanan:    { name: 'Sanan Akbar',               initials: 'SA', role: 'Director of Business Analytics · BeneLynk, New York City',         tag: 'Analytics · New York City' },
+      asad:     { name: 'Asad Najamuddin',           initials: 'AN', role: 'Manager · KPMG UK, Asset Management Practice',                     tag: 'Finance · London' },
+      abdullah: { name: 'Dr. Abdullah Hafeez Gondal',initials: 'AG', role: 'Chief Resident · Internal Medicine, NYMC / Landmark Medical Center',tag: 'Medicine · New York' },
+      hashim:   { name: 'Hashim Mahmood',            initials: 'HM', role: 'Senior Account Executive · Alaan, UAE',                            tag: 'Tech Sales · UAE' },
+      zain:     { name: 'Muhammad Zain Farrukh',     initials: 'ZF', role: 'Global Financial Controller · London',                             tag: 'Finance · London' },
+      hassan:   { name: 'Muhammad Hassan Asif',      initials: 'MH', role: 'Assistant Manager Finance · Arbisoft, Pakistan',                   tag: 'Finance · Pakistan' },
+    };
+
+    const mentorKey = new URLSearchParams(window.location.search).get('mentor') || 'sanan';
+    const mentor = mentors[mentorKey] || mentors['sanan'];
+
+    document.getElementById('mh-avatar').innerText       = mentor.initials;
+    document.getElementById('mh-name').innerText         = mentor.name;
+    document.getElementById('mh-role').innerText         = mentor.role;
+    document.getElementById('mh-tag').innerText          = mentor.tag;
+    document.getElementById('hidden-mentor-name').value  = mentor.name;
+    document.getElementById('ss-mentor').innerText       = mentor.name;
+
     const availableSlots = [
   { day: "THU", time: "10:00 AM", tz: "PKT" },
   { day: "THU", time: "02:30 PM", tz: "PKT" },
