@@ -440,7 +440,7 @@ footer{background:var(--text-dark);padding:40px 5vw 24px;}
     fetch(scriptUrl, {
         method: 'POST',
         mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain' },
         body: JSON.stringify(dataObj)
     })
     .then(() => {
