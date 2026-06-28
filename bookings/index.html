@@ -4,7 +4,7 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
-<!-- Favicon (GoMentored brand mark) -->
+<!-- Favicon (GoMentored brand mark) hello -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImJnR3JhZCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNGNDdCMjA7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I0Q0NjIwQTtzdG9wLW9wYWNpdHk6MSIgLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgcng9IjciIGZpbGw9InVybCgjYmdHcmFkKSIvPgogIDx0ZXh0IHg9IjE2IiB5PSIyMiIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iOTAwIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+R008L3RleHQ+Cjwvc3ZnPgo=">
 <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+CiAgPGRlZnM+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImJnR3JhZCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0eWxlPSJzdG9wLWNvbG9yOiNGNDdCMjA7c3RvcC1vcGFjaXR5OjEiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I0Q0NjIwQTtzdG9wLW9wYWNpdHk6MSIgLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgPC9kZWZzPgogIDxyZWN0IHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgcng9IjciIGZpbGw9InVybCgjYmdHcmFkKSIvPgogIDx0ZXh0IHg9IjE2IiB5PSIyMiIgZm9udC1mYW1pbHk9IkFyaWFsIEJsYWNrLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iOTAwIiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSI+R008L3RleHQ+Cjwvc3ZnPgo=">
 <meta name="theme-color" content="#F47B20">
@@ -378,332 +378,105 @@ footer{background:var(--text-dark);padding:40px 5vw 24px;}
 </footer>
 
 <script>
-// ════════════════════════════════════════════════════════════════
-//  CONFIGURATION — Web3Forms Setup
-// ════════════════════════════════════════════════════════════════
+    const availableSlots = [
+  { day: "THU", time: "10:00 AM", tz: "PKT" },
+  { day: "THU", time: "02:30 PM", tz: "PKT" },
+  { day: "FRI", time: "11:00 AM", tz: "PKT" }
+];
 
-// 1. Web3Forms endpoint and access key
-//    Each booking sends 3 emails:
-//    - Admin email → info@gomentored.com
-//    - CC email → mentor's email (notification)
-//    - Auto-reply → mentee (the email they entered in form)
-const WEB3FORMS_ENDPOINT = 'https://api.web3forms.com/submit';
-const WEB3FORMS_ACCESS_KEY = '552d2d19-9f7f-4dc6-9281-3cddb9dc901e';
+    const slotsGrid = document.getElementById('slotsGrid');
+    const hiddenSlotInput = document.getElementById('hidden-slot');
+    const summarySlotText = document.getElementById('ss-slot');
 
-// 2. Mentor data — currently routed to your Hotmail until each mentor's
-//    real email is confirmed. To update later: replace each email below
-//    with the mentor's actual email address.
-const MENTORS = {
-  sanan: {
-    name: "Sanan Akbar",
-    initials: "SA",
-    role: "Director of Business Analytics · BeneLynk, New York City",
-    field: "Analytics",
-    location: "New York City",
-    email: "hassanasif95@hotmail.com",
-    price: null, // FREE session
-    slots: [["Mon","18:00"],["Mon","19:30"],["Tue","18:00"],["Tue","20:00"],["Thu","19:30"],["Thu","20:00"]]
-  },
-  asad: {
-    name: "Asad Najamuddin",
-    initials: "AN",
-    role: "Manager · KPMG UK, Asset Management Practice",
-    field: "Finance",
-    location: "London",
-    email: "hassanasif95@hotmail.com",
-    price: "PKR 5,000",
-    slots: [["Tue","17:00"],["Tue","18:30"],["Wed","17:00"],["Wed","20:30"],["Sat","11:00"],["Sat","14:00"]]
-  },
-  abdullah: {
-    name: "Dr. Abdullah Hafeez Gondal",
-    initials: "DG",
-    role: "Chief Resident · Internal Medicine, NYMC / Landmark Medical Center",
-    field: "Medicine",
-    location: "New York",
-    email: "hassanasif95@hotmail.com",
-    price: "PKR 5,000",
-    slots: [["Mon","07:00"],["Mon","08:00"],["Wed","19:00"],["Wed","20:00"],["Fri","07:30"],["Fri","19:00"]]
-  },
-  hashim: {
-    name: "Hashim Mahmood",
-    initials: "HM",
-    role: "Senior Account Executive · Alaan, UAE",
-    field: "Tech Sales",
-    location: "UAE",
-    email: "hassanasif95@hotmail.com",
-    price: "PKR 5,000",
-    slots: [["Sun","10:00"],["Sun","17:30"],["Tue","14:00"],["Tue","17:30"],["Thu","10:00"],["Thu","18:00"]]
-  },
-  zain: {
-    name: "Muhammad Zain Farrukh",
-    initials: "ZF",
-    role: "Global Financial Controller · London",
-    field: "Finance",
-    location: "London",
-    email: "hassanasif95@hotmail.com",
-    price: "PKR 5,000",
-    slots: [["Mon","08:30"],["Mon","18:00"],["Wed","12:00"],["Wed","18:00"],["Fri","08:30"],["Fri","17:00"]]
-  },
-  hassan: {
-    name: "Muhammad Hassan Asif",
-    initials: "HA",
-    role: "Assistant Manager Finance · Arbisoft, Pakistan",
-    field: "Finance",
-    location: "Pakistan",
-    email: "hassanasif95@hotmail.com", // Founder — already correct
-    price: "PKR 5,000",
-    slots: [["Tue","11:00"],["Tue","20:00"],["Thu","15:00"],["Thu","20:00"],["Sat","11:00"],["Sat","18:00"]]
-  },
-  yahya: {
-    name: "Yahya Humayoun",
-    initials: "YH",
-    role: "Co-Founder & CEO · Pattern Technologies",
-    field: "Entrepreneurship · SaaS · AI",
-    location: "Pakistan / GCC",
-    email: "hassanasif95@hotmail.com",
-    price: "PKR 5,000",
-    slots: [["Mon","16:00"],["Mon","19:00"],["Wed","16:00"],["Wed","20:00"],["Fri","17:00"],["Sat","12:00"]]
-  }
-};
-
-// ════════════════════════════════════════════════════════════════
-
-// Read mentor key from URL: bookings.html?mentor=sanan
-const params = new URLSearchParams(window.location.search);
-const mentorKey = params.get('mentor') || 'sanan';
-const mentor = MENTORS[mentorKey] || MENTORS.sanan;
-
-// Pre-fill mentor header
-document.getElementById('mh-avatar').textContent = mentor.initials;
-document.getElementById('mh-name').textContent = mentor.name;
-document.getElementById('mh-role').textContent = mentor.role;
-document.getElementById('mh-tag').textContent = mentor.field + ' · ' + mentor.location;
-document.title = `Book a Session with ${mentor.name} — GoMentored`;
-
-// Pre-fill hidden form fields (Web3Forms config + booking details)
-document.getElementById('hidden-mentor-name').value = mentor.name;
-document.getElementById('hidden-mentor-email').value = mentor.email;
-document.getElementById('hidden-mentor-field').value = mentor.field;
-document.getElementById('hidden-subject').value = `[GoMentored] New Session Booking: ${mentor.name}`;
-document.getElementById('hidden-page-url').value = window.location.href;
-document.getElementById('hidden-timestamp').value = new Date().toISOString();
-document.getElementById('ss-mentor').textContent = mentor.name;
-
-// ─── PRICING LOGIC: show/hide based on mentor.price ───
-const pricingBlock = document.getElementById('pricing-block');
-const freeBlock = document.getElementById('free-block');
-const ssPriceEl = document.getElementById('ss-price');
-const ssSeparator = document.getElementById('ss-separator');
-const sessionPriceField = document.querySelector('input[name="session_price"]');
-
-if (mentor.price === null) {
-  // No pricing section at all
-  pricingBlock.style.display = 'none';
-  freeBlock.style.display = 'none';
-  if (ssPriceEl) ssPriceEl.style.display = 'none';
-  if (ssSeparator) ssSeparator.style.display = 'none';
-  if (sessionPriceField) sessionPriceField.value = 'N/A';
-} else {
-  // Paid session (show price)
-  pricingBlock.style.display = '';
-  freeBlock.style.display = 'none';
-  if (ssPriceEl) {
-    ssPriceEl.style.display = '';
-    ssPriceEl.textContent = mentor.price;
-  }
-  if (ssSeparator) ssSeparator.style.display = '';
-  if (sessionPriceField) sessionPriceField.value = mentor.price;
-}
-
-// Generate slots
-let selectedSlot = null;
-
-function generateSlots() {
-  const grid = document.getElementById('slotsGrid');
-  grid.innerHTML = '';
-  const now = new Date();
-  const dayMap = {Sun:0,Mon:1,Tue:2,Wed:3,Thu:4,Fri:5,Sat:6};
-
-  mentor.slots.forEach(([day, time], idx) => {
-    const d = new Date(now);
-    let diff = dayMap[day] - d.getDay();
-    if (diff <= 0) diff += 7;
-    const weekOffset = Math.floor(idx / 2);
-    d.setDate(d.getDate() + diff + (weekOffset * 7));
-
-    const dayLabel = d.toLocaleDateString('en-GB', {weekday:'short'});
-    const dateLabel = d.toLocaleDateString('en-GB', {day:'numeric', month:'short'});
-    const taken = Math.random() < 0.15;
-
-    const el = document.createElement('div');
-    el.className = 'slot' + (taken ? ' taken' : '');
-    el.innerHTML = `<div class="slot-day">${dayLabel} · ${dateLabel}</div><div class="slot-time">${time}</div><div class="slot-tz">Local time</div>`;
-
-    if (!taken) {
-      el.onclick = () => {
-        document.querySelectorAll('.slot').forEach(x => x.classList.remove('selected'));
-        el.classList.add('selected');
-        selectedSlot = `${dayLabel}, ${dateLabel} at ${time}`;
-        document.getElementById('ss-slot').textContent = selectedSlot;
-        document.getElementById('hidden-slot').value = selectedSlot;
-      };
-    }
-    grid.appendChild(el);
-  });
-}
-generateSlots();
-
-// Form submission
-const form = document.getElementById('booking-form');
-const errorBox = document.getElementById('error-msg');
-const submitBtn = document.getElementById('submitBtn');
-
-form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  errorBox.classList.remove('visible');
-
-  if (!selectedSlot) {
-    errorBox.textContent = 'Please pick a time slot above before submitting.';
-    errorBox.classList.add('visible');
-    document.querySelector('.slots-grid').scrollIntoView({behavior:'smooth', block:'center'});
-    return;
-  }
-
-  if (!form.checkValidity()) {
-    errorBox.textContent = 'Please fill in all required fields.';
-    errorBox.classList.add('visible');
-    form.reportValidity();
-    return;
-  }
-
-  submitBtn.disabled = true;
-  submitBtn.textContent = 'Sending...';
-
-  // Update timestamp at submission time
-  document.getElementById('hidden-timestamp').value = new Date().toISOString();
-
-  // Build dynamic auto-reply email body using actual form values
-  const menteeName = document.getElementById('f-name').value.trim();
-  const menteeEmail = document.getElementById('f-email').value.trim();
-  const menteeFirstName = menteeName.split(' ')[0] || 'there';
-
-  // Dynamic content based on pricing
-  const isFree = mentor.price === null;
-  const investmentLine = isFree
-    ? `This is a complimentary session at no cost.`
-    : `Investment: ${mentor.price}`;
-
-  const nextStepsBlock = isFree
-    ? `Within 24 hours you'll receive:\n` +
-      `1. Confirmation that ${mentor.name.split(' ')[0]} has accepted your slot\n` +
-      `2. The Google Meet/Zoom link for your session\n\n`
-    : `Within 24 hours you'll receive:\n` +
-      `1. Confirmation that ${mentor.name.split(' ')[0]} has accepted your slot\n` +
-      `2. Bank transfer details for payment\n` +
-      `3. The Google Meet/Zoom link for your session\n\n`;
-
-  const autoresponseBody =
-    `Hi ${menteeFirstName},\n\n` +
-    `Thanks for booking a session with ${mentor.name} — we've received your request and we're confirming your slot now.\n\n` +
-    `YOUR BOOKING DETAILS\n` +
-    `--------------------\n` +
-    `Mentor: ${mentor.name}\n` +
-    `Field: ${mentor.field}\n` +
-    `Slot: ${selectedSlot}\n` +
-    `Session length: 30 minutes\n` +
-    `${investmentLine}\n\n` +
-    `WHAT HAPPENS NEXT\n` +
-    `--------------------\n` +
-    nextStepsBlock +
-    `In the meantime, prepare a few specific questions you'd like to ask. The more specific you are, the more value you'll get from your 30 minutes.\n\n` +
-    `Talk soon,\n` +
-    `Hassan Asif\n` +
-    `Founder, GoMentored\n` +
-    `gomentored.com`;
-
-  document.getElementById('hidden-autoresponse').value = autoresponseBody;
-
-  try {
-    // ═══════════════════════════════════════════════════════════
-    // EMAIL 1 + 2: Main submission to admin (info@gomentored.com)
-    // + Auto-reply to mentee (Web3Forms autoresponse to form's "email")
-    // ═══════════════════════════════════════════════════════════
-    const formData = new FormData(form);
-    const response = await fetch(WEB3FORMS_ENDPOINT, {
-      method: 'POST',
-      body: formData,
-      headers: { 'Accept': 'application/json' }
+    // Create the slot elements and make them clickable
+    availableSlots.forEach(slot => {
+    const slotDiv = document.createElement('div');
+    slotDiv.className = 'slot';
+    slotDiv.innerHTML = `
+        <div class="slot-day">${slot.day}</div>
+        <div class="slot-time">${slot.time}</div>
+        <div class="slot-tz">${slot.tz}</div>
+    `;
+    
+    slotDiv.addEventListener('click', function() {
+        // Remove "selected" class from all slots, then add to the clicked one
+        document.querySelectorAll('.slot').forEach(s => s.classList.remove('selected'));
+        this.classList.add('selected');
+        
+        // Save the selection to the hidden input and update the UI summary
+        const slotString = `${slot.day}, ${slot.time} ${slot.tz}`;
+        hiddenSlotInput.value = slotString;
+        summarySlotText.innerText = slotString;
+    });
+    
+    slotsGrid.appendChild(slotDiv);
     });
 
-    const result = await response.json();
+    // Form Submission Handling
+    document.getElementById('booking-form').addEventListener('submit', function(e) {
+    e.preventDefault(); 
 
-    if (response.ok && result.success) {
-      // ═══════════════════════════════════════════════════════════
-      // EMAIL 3: Send separate notification to MENTOR
-      // (Web3Forms doesn't reliably support CC, so we do a 2nd call)
-      // ═══════════════════════════════════════════════════════════
-      const mentorNotifyData = new FormData();
-      mentorNotifyData.append('access_key', WEB3FORMS_ACCESS_KEY);
-      mentorNotifyData.append('subject', `[GoMentored] New booking from ${menteeName} for your slot`);
-      mentorNotifyData.append('from_name', 'GoMentored Admin');
-      mentorNotifyData.append('email', mentor.email);  // mentor receives this
-      mentorNotifyData.append('botcheck', '');
-      mentorNotifyData.append('message',
-        `Hi ${mentor.name.split(' ')[0]},\n\n` +
-        `You have a new session booking request:\n\n` +
-        `MENTEE DETAILS\n` +
-        `--------------------\n` +
-        `Name: ${menteeName}\n` +
-        `Email: ${menteeEmail}\n` +
-        `Slot: ${selectedSlot}\n\n` +
-        `Hassan will reach out to confirm the slot and arrange payment.\n\n` +
-        `— GoMentored Team`
-      );
-
-      // Fire-and-forget mentor notification (don't block confirmation UI)
-      fetch(WEB3FORMS_ENDPOINT, {
-        method: 'POST',
-        body: mentorNotifyData,
-        headers: { 'Accept': 'application/json' }
-      }).catch(err => console.warn('Mentor notify failed:', err));
-
-      // Show confirmation
-      document.getElementById('conf-mentor').textContent = mentor.name;
-      document.getElementById('conf-slot').textContent = selectedSlot;
-      // Dynamic session info based on pricing
-      const confSession = document.getElementById('conf-session');
-      const confPayment = document.getElementById('conf-payment');
-      if (confSession) {
-        confSession.textContent = isFree ? '30 min · FREE' : `30 min · ${mentor.price}`;
-      }
-      if (confPayment) {
-        confPayment.textContent = isFree ? 'No payment required' : 'Bank Transfer';
-      }
-      document.getElementById('booking-flow').style.display = 'none';
-      document.getElementById('confirm-section').classList.add('visible');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-
-      // Optional: GA4 conversion event (will fire if GA4 is loaded)
-      if (typeof gtag === 'function') {
-        gtag('event', 'session_booking_submit', {
-          event_category: 'conversion',
-          event_label: mentor.name,
-          mentor_name: mentor.name,
-          mentor_field: mentor.field,
-          selected_slot: selectedSlot
-        });
-      }
-    } else {
-      throw new Error(result.message || 'Submission failed');
+    const form = e.target;
+    const formData = new FormData(form);
+    const submitBtn = document.getElementById('submitBtn');
+    
+    // Validation: Check standard fields
+    if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
     }
-  } catch (err) {
-    console.error('Booking submission error:', err);
-    errorBox.textContent = "Sorry, we couldn't submit your request. Please check your connection and try again, or email us directly at info@gomentored.com.";
-    errorBox.classList.add('visible');
-    submitBtn.disabled = false;
-    submitBtn.textContent = 'Request Session →';
-  }
-});
+
+    // Validation: Check if a time slot was actually clicked
+    if (!hiddenSlotInput.value) {
+        alert("Please select a time slot before requesting a session.");
+        return;
+    }
+
+    // Disable button to prevent double-clicks
+    submitBtn.innerText = "Requesting...";
+    submitBtn.disabled = true;
+
+    // Convert formData to a clean JSON object for Google Sheets
+    const dataObj = Object.fromEntries(formData.entries());
+
+    // --- 1. SEND TO GOOGLE SHEETS ---
+    const googleWebAppUrl = "https://script.google.com/macros/s/AKfycbx4Rsewol72aNwv0iN62frrD_1nvY5BBPYFs1xCDW_yOJrbOn8_rs5Yj9y0GlehnEm6pg/exec"; // <-- PASTE YOUR URL HERE
+    
+    fetch(googleWebAppUrl, {
+        method: 'POST',
+        mode: 'no-cors', // Bypasses browser security blocks for background requests
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(dataObj)
+    });
+
+    // --- 2. SEND TO WEB3FORMS ---
+    fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData
+    })
+    .then(async (response) => {
+        if(response.status === 200) {
+        // Hide the form UI
+        document.getElementById('booking-flow').style.display = 'none';
+        
+        // Populate the success screen with submitted data
+        document.getElementById('conf-mentor').innerText = dataObj.mentor_name || "Your Mentor";
+        document.getElementById('conf-slot').innerText = dataObj.selected_slot || "To be arranged";
+        
+        // Show the success screen
+        document.getElementById('confirm-section').classList.add('visible');
+        window.scrollTo(0, 0);
+        } else {
+        throw new Error("Web3Forms returned an error");
+        }
+    })
+    .catch(error => {
+        console.error('Submission failed:', error);
+        submitBtn.innerText = "Request Session →";
+        submitBtn.disabled = false;
+        alert("Something went wrong with the booking. Please try again.");
+    });
+    });                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  
 </script>
 </body>
 </html>
